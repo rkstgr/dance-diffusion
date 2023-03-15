@@ -26,7 +26,7 @@ class SampleDataset(torch.utils.data.Dataset):
     )
 
     for path in paths:
-      for ext in ['wav','flac','ogg','aiff','aif','mp3']:
+      for ext in ['wav','flac','ogg','aiff','aif','mp3','opus']:
         self.filenames += glob(f'{path}/**/*.{ext}', recursive=True)
 
     self.sr = global_args.sample_rate

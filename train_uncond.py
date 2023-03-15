@@ -194,6 +194,7 @@ def main():
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     print('Using device:', device)
     torch.manual_seed(args.seed)
+    torch.set_float32_matmul_precision('medium')
 
     train_set = SampleDataset([args.training_dir], args)
     train_dl = data.DataLoader(train_set, args.batch_size, shuffle=True,
@@ -219,7 +220,7 @@ def main():
         callbacks=[ckpt_callback, demo_callback, exc_callback],
         logger=wandb_logger,
         log_every_n_steps=1,
-        max_epochs=10000000,
+        max_steps=200_000,
     )
 
     diffusion_trainer.fit(diffusion_model, train_dl, ckpt_path=args.ckpt_path)
