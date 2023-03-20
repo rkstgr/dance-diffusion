@@ -198,7 +198,7 @@ def main():
 
     train_set = SampleDataset([args.training_dir], args)
     train_dl = data.DataLoader(train_set, args.batch_size, shuffle=True,
-                               num_workers=args.num_workers, persistent_workers=True, pin_memory=True)
+                               num_workers=args.num_workers, persistent_workers=True, pin_memory=True, prefetch_factor=4)
     wandb_logger = pl.loggers.WandbLogger(project=args.name)
 
     exc_callback = ExceptionCallback()
@@ -206,7 +206,7 @@ def main():
     demo_callback = DemoCallback(args)
 
     diffusion_model = DiffusionUncond(args)
-
+    
     wandb_logger.watch(diffusion_model)
     push_wandb_config(wandb_logger, args)
 
